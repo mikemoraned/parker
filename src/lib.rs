@@ -1,4 +1,5 @@
 use actix_web::dev::Server;
+use actix_web::middleware::Logger;
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use std::net::TcpListener;
 use url::Url;
@@ -24,6 +25,7 @@ pub fn run(listener: TcpListener, redirect_url: Url) -> Result<Server, std::io::
             .data(AppState {
                 redirect_url: redirect_url.clone(),
             })
+            .wrap(Logger::default())
             .route("/health_check", web::get().to(health_check))
             .service(web::resource("/").to(redirect))
             .service(web::resource("/{rest:.+}").to(redirect))

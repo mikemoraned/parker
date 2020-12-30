@@ -1,13 +1,14 @@
-use std::net::TcpListener;
+use url::Url;
+
+mod support;
 
 #[actix_rt::test]
 async fn health_check_works() {
     // Arrange
-    let address = spawn_app();
-    let client = reqwest::Client::new();
+    let address = support::spawn_app(Url::parse("http://example.com/").unwrap());
 
     // Act
-    let response = client
+    let response = support::client()
         .get(&format!("{}/health_check", &address))
         .send()
         .await
@@ -16,14 +17,4 @@ async fn health_check_works() {
     // Assert
     assert!(response.status().is_success());
     assert_eq!(Some(0), response.content_length());
-}
-
-fn spawn_app() -> String {
-    let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
-    // We retrieve the port assigned to us by the OS
-    let port = listener.local_addr().unwrap().port();
-    let server = parker::run(listener).expect("Failed to bind address");
-    let _ = tokio::spawn(server);
-    // We return the application address to the caller!
-    format!("http://127.0.0.1:{}", port)
 }

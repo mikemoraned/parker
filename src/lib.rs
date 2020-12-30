@@ -13,7 +13,7 @@ async fn health_check() -> impl Responder {
 
 async fn redirect(data: web::Data<AppState>) -> HttpResponse {
     let location = data.redirect_url.as_str();
-    HttpResponse::PermanentRedirect()
+    HttpResponse::TemporaryRedirect()
         .header("Location", location)
         .body("Redirecting")
 }

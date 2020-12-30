@@ -16,7 +16,7 @@ async fn redirects_root_url() {
         .expect("Failed to execute request.");
 
     // Assert
-    assert_eq!(response.status(), StatusCode::PERMANENT_REDIRECT);
+    assert_eq!(response.status(), StatusCode::TEMPORARY_REDIRECT);
     assert_eq!(
         response.headers().get("Location").unwrap(),
         "http://example.com/"
@@ -36,7 +36,7 @@ async fn redirects_top_level_url() {
         .expect("Failed to execute request.");
 
     // Assert
-    assert_eq!(response.status(), StatusCode::PERMANENT_REDIRECT);
+    assert_eq!(response.status(), StatusCode::TEMPORARY_REDIRECT);
     assert_eq!(
         response.headers().get("Location").unwrap(),
         "http://example.com/"
@@ -56,7 +56,7 @@ async fn redirects_nested_url() {
         .expect("Failed to execute request.");
 
     // Assert
-    assert_eq!(response.status(), StatusCode::PERMANENT_REDIRECT);
+    assert_eq!(response.status(), StatusCode::TEMPORARY_REDIRECT);
     assert_eq!(
         response.headers().get("Location").unwrap(),
         "http://example.com/"

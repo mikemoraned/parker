@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: parker-service
+  namespace: parker
+spec:
+  type: NodePort
+  selector:
+    run: parker
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

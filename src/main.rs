@@ -1,4 +1,5 @@
 use clap::{App, Arg};
+use env_logger::Env;
 use parker::run;
 use std::net::TcpListener;
 use url::Url;
@@ -28,6 +29,8 @@ fn validate_port(s: String) -> Result<(), String> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::Builder::from_env(Env::default().default_filter_or("info")).init();
+
     let matches = App::new("parker")
         .version(VERSION)
         .about("Helps park websites")
@@ -48,13 +51,17 @@ async fn main() -> std::io::Result<()> {
                 .help("Sets the port to listen on")
                 .required(false)
                 .validator(validate_port)
-                .default_value("8080")
                 .takes_value(true),
         )
         .get_matches();
 
     let redirect_url = Url::parse(matches.value_of("redirect-url").unwrap()).unwrap();
     let port = matches.value_of("port").unwrap().parse::<u16>().unwrap();
+    log::info!(
+        "starting, with redirect_url={}, port={}",
+        redirect_url,
+        port
+    );
     let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).expect("Failed to bind port");
     run(listener, redirect_url)?.await
 }

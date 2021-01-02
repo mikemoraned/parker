@@ -1,12 +1,9 @@
-use reqwest::redirect::Policy;
+use actix_web::client::{Client, ClientBuilder};
 use std::net::TcpListener;
 use url::Url;
 
-pub fn client() -> reqwest::Client {
-    reqwest::Client::builder()
-        .redirect(Policy::none())
-        .build()
-        .unwrap()
+pub fn client() -> Client {
+    ClientBuilder::new().disable_redirects().finish()
 }
 
 pub fn spawn_app(redirect_url: Url) -> String {

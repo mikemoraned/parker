@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: parker
-          image: ghcr.io/mikemoraned/parker:0.1.0
+          image: ghcr.io/mikemoraned/parker:0.1.1
           env:
             - name: REDIRECT_URL
               value: "https://www.example.com"

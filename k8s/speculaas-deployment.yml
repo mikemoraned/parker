@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: parker
-  namespace: parker
+  namespace: speculaas
 spec:
   selector:
     matchLabels:
@@ -18,7 +18,7 @@ spec:
           image: ghcr.io/mikemoraned/parker:0.1.0
           env:
             - name: REDIRECT_URL
-              value: "https://www.example.com"
+              value: "https://youtube.com/playlist?list=PLeGZvF0_CoYE26xMJDYGOm7-8LddqCAPh"
             - name: PORT
               value: "8000"
           ports:

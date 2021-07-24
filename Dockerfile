@@ -1,4 +1,4 @@
-FROM rust:1.49-buster as build
+FROM rust:1.53-buster as build
 
 # prepare base image with dependencies
 ## create shell project
@@ -23,7 +23,7 @@ RUN touch src/lib.rs
 RUN cargo build --release --verbose
 
 # set up runnable
-FROM rust:1.49-slim-buster
+FROM rust:1.53-slim-buster
 ## copy across binary
 COPY --from=build /usr/src/app/target/release/parker /parker
 
